@@ -74,8 +74,8 @@ const Location:FC<LocationProps> = ({onLocationSelect}) => {
                     id="location" 
                     onChange={handleChange}></input>
             </form>
+            {location && <LocationResults results={data} onClick={handleClick} />}    
             {isLoading && <p>Loading</p>}
-            {location && <LocationResults results={data} onClick={handleClick} />}
             {error && <span>{error}</span>}
         </>
     )
