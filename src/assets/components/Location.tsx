@@ -1,4 +1,4 @@
-import { FC, useEffect, useRef, useState } from "react";
+import { FC, useRef, useState } from "react";
 import { City } from "../../types";
 import LocationResults from "./LocationResults";
 
@@ -11,17 +11,16 @@ const apiUrl = "https://api.api-ninjas.com/v1/geocoding?city="
 
 const Location:FC<LocationProps> = ({onLocationSelect}) => {
 
-    const [location, setLocation] = useState<string>('')
     const [data, setData] = useState<City[] | null>(null)
     const [error, setError] = useState<string | null>(null)
     const [isLoading, setIsLoading] = useState(false)
 
     const timeoutRef = useRef<number | null>(null)
+    const inputRef = useRef<HTMLInputElement>(null)
 
     const fetchData = async (location: string) => {
         if (location.length >= 3) {
             setIsLoading(true)
-            console.log('starts fetching')
             try {
                 const response = await fetch(apiUrl + location, {
                     method: 'GET',
@@ -43,10 +42,9 @@ const Location:FC<LocationProps> = ({onLocationSelect}) => {
 
     const handleChange = (e:React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value
-        if (e.target.value.length < location.length) {
+        if (inputRef.current?.value?.length && e.target.value.length < inputRef.current?.value.length) {
             setData(null)
         }
-        setLocation(value)
         if (timeoutRef.current !== null) {
             clearTimeout(timeoutRef.current)
         }
@@ -58,13 +56,16 @@ const Location:FC<LocationProps> = ({onLocationSelect}) => {
     const handleClick = (city: City) => {
         onLocationSelect(city)
         setData(null)
+        if (inputRef.current) {
+            inputRef.current.value = ''
+        }
     }
 
     return (
         <>
             <form>
                 <label htmlFor="location">Select a location</label>
-                <input type="text" id="location" onChange={handleChange}></input>
+                <input ref={inputRef} type="text" id="location" onChange={handleChange}></input>
                 {isLoading && <p>Loading</p>}
                 {location && <LocationResults results={data} onClick={handleClick} />}
                 {error && <span>{error}</span>}
