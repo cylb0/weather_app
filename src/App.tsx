@@ -51,7 +51,7 @@ function App() {
   return (
     <>
       <Location onLocationSelect={handleLocationSelect} />
-      <LocationDisplay data={data}/>
+      {data && <LocationDisplay data={data}/>}
     </>
   )
 }
