@@ -63,13 +63,20 @@ const Location:FC<LocationProps> = ({onLocationSelect}) => {
 
     return (
         <>
-            <form>
-                <label htmlFor="location">Select a location</label>
-                <input ref={inputRef} type="text" id="location" onChange={handleChange}></input>
-                {isLoading && <p>Loading</p>}
-                {location && <LocationResults results={data} onClick={handleClick} />}
-                {error && <span>{error}</span>}
+            <form className="flex w-full gap-1">
+                <label 
+                    className="text-gray-500" 
+                    htmlFor="location">Select a location</label>
+                <input 
+                    className="border border-gray-500 rounded px-1" 
+                    ref={inputRef} 
+                    type="text" 
+                    id="location" 
+                    onChange={handleChange}></input>
             </form>
+            {isLoading && <p>Loading</p>}
+            {location && <LocationResults results={data} onClick={handleClick} />}
+            {error && <span>{error}</span>}
         </>
     )
 }
