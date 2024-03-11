@@ -18,11 +18,13 @@ const LocationResults:FC<LocationResultsProps> = ({results, onClick}) => {
     return (
         <div>
             {results && results.map((city, index) => (
-                <div key={index} onClick={handleClick} data-index={index}>
-                    <span>{city.name}</span>
-                    <span>{city.latitude}</span>
-                    <span>{city.longitude}</span>
-                    <span>{city.country}</span>
+                <div className="flex gap-1 items-baseline border border-gray-500 border-collapse sm:w-1/5 w-full rounded" 
+                    key={index} 
+                    onClick={handleClick} 
+                    data-index={index}>
+                    <span className="text-gray-700">{city.name}</span>
+                    <span className="text-gray-500 text-xs">{`${city.latitude.toFixed(2)}°, ${city.longitude.toFixed(2)}°`}</span>
+                    <span className="text-gray-700 text-sm">{city.country}</span>
                 </div>
             ))}
         </div>
