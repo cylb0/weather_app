@@ -8,7 +8,7 @@ interface LocationDisplayPropos {
 
 const LocationDisplay:FC<LocationDisplayPropos> = ({data}) => {
     return (
-        <div className="border border-gray-500 rounded text-center items-center w-1/2 mt-3 mx-auto">
+        <div className="border border-gray-500 rounded text-center items-center w-3/4 mt-3 mx-auto">
             <p className="flex gap-3 justify-center align-bottom">
                 <span className="text-gray-700 text-xl font-bold">{data.location.name}</span>
                 <span className="text-gray-500 text-sm">{`${data.location.lat}°,${data.location.lon}°`}</span>
