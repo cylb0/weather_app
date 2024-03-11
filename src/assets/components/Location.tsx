@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect, useRef, useState } from "react";
 import { City } from "../../types";
 import LocationResults from "./LocationResults";
 
@@ -7,41 +7,52 @@ interface LocationProps {
 }
 
 const apiNinjaKey = import.meta.env.VITE_API_NINJAS_KEY
+const apiUrl = "https://api.api-ninjas.com/v1/geocoding?city="
 
 const Location:FC<LocationProps> = ({onLocationSelect}) => {
 
     const [location, setLocation] = useState<string>('')
     const [data, setData] = useState<City[] | null>(null)
     const [error, setError] = useState<string | null>(null)
+    const [isLoading, setIsLoading] = useState(false)
 
-    useEffect(() => {
-        const fetchData = async () => {
-            if (location.length >= 3) {
-                try {
-                    const response = await fetch(`https://api.api-ninjas.com/v1/geocoding?city=${location}`, {
-                        method: 'GET',
-                        headers: {
-                            'X-Api-Key': apiNinjaKey
-                        }
-                    })
-                    if (!response.ok) {
-                        throw new Error('No result')
+    const timeoutRef = useRef<number | null>(null)
+
+    const fetchData = async (location: string) => {
+        if (location.length >= 3) {
+            setIsLoading(true)
+            console.log('starts fetching')
+            try {
+                const response = await fetch(apiUrl + location, {
+                    method: 'GET',
+                    headers: {
+                        'X-Api-Key': apiNinjaKey
                     }
-                    const data = await response.json()
-                    setData(data)
-                } catch (error: any) {
-                    setError(error.message)
+                })
+                if (!response.ok) {
+                    throw new Error('No result')
                 }
+                const data = await response.json()
+                setData(data)
+                setIsLoading(false)
+            } catch (error: any) {
+                setError(error.message)
             }
         }
-
-        fetchData()
-
-    }, [location])
+    }
 
     const handleChange = (e:React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value
+        if (e.target.value.length < location.length) {
+            setData(null)
+        }
         setLocation(value)
+        if (timeoutRef.current !== null) {
+            clearTimeout(timeoutRef.current)
+        }
+        timeoutRef.current = window.setTimeout(() => {
+            fetchData(value)
+        }, 500)
     }
 
     const handleClick = (city: City) => {
@@ -54,6 +65,7 @@ const Location:FC<LocationProps> = ({onLocationSelect}) => {
             <form>
                 <label htmlFor="location">Select a location</label>
                 <input type="text" id="location" onChange={handleChange}></input>
+                {isLoading && <p>Loading</p>}
                 {location && <LocationResults results={data} onClick={handleClick} />}
                 {error && <span>{error}</span>}
             </form>
