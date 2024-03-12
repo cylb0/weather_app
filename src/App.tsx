@@ -7,6 +7,7 @@ import LocationSelect from './assets/components/LocationSelect'
 const weatherApiKey = import.meta.env.VITE_WEATHER_API_KEY
 const weatherApiUrl = 'http://api.weatherapi.com/v1'
 const forecastUri = '/forecast.json'
+const forecastDays = 5
 
 function App() {
 
@@ -22,7 +23,7 @@ function App() {
         try {
           setLoading(true)
 
-          const response = await fetch(`${weatherApiUrl}${forecastUri}?key=${weatherApiKey}&q=${location.latitude},${location.longitude}&days=5`)
+          const response = await fetch(`${weatherApiUrl}${forecastUri}?key=${weatherApiKey}&q=${location.latitude},${location.longitude}&days=${forecastDays}`)
           if (!response) {
             throw new Error('No result')
           }
