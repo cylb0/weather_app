@@ -3,15 +3,16 @@ import { CurrentWeatherData, LocationData } from "../../types"
 import WeatherIcon from "./WeatherIcon"
 
 interface LocationDisplayPropos {
+    city: string
     location: LocationData
     current: CurrentWeatherData
 }
 
-const LocationDisplay:FC<LocationDisplayPropos> = ({location, current}) => {
+const LocationDisplay:FC<LocationDisplayPropos> = ({city, location, current}) => {
     return (
         <div className="border border-gray-500 rounded text-center items-center w-3/4 mt-3 mx-auto">
             <p className="flex gap-3 justify-center align-bottom">
-                <span className="text-gray-700 text-xl font-bold">{location.name}</span>
+                <span className="text-gray-700 text-xl font-bold">{city}</span>
                 <span className="text-gray-500 text-sm">{`${location.lat}°,${location.lon}°`}</span>
             </p>
             <div className="flex justify-center items-center">

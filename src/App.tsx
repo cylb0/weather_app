@@ -52,7 +52,7 @@ function App() {
   return (
     <>
       <LocationSelect onLocationSelect={handleLocationSelect} />
-      {forecastData?.current && forecastData?.location && <LocationDisplay location={forecastData.location} current={forecastData.current}/>}
+      {forecastData?.current && forecastData?.location && location?.name && <LocationDisplay city={location.name} location={forecastData.location} current={forecastData.current}/>}
     </>
   )
 }
