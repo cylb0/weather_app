@@ -544,6 +544,10 @@ video {
   --tw-backdrop-sepia:  ;
 }
 
+.absolute {
+  position: absolute;
+}
+
 .mx-auto {
   margin-left: auto;
   margin-right: auto;
@@ -581,6 +585,10 @@ video {
   border-collapse: collapse;
 }
 
+.flex-col {
+  flex-direction: column;
+}
+
 .items-center {
   align-items: center;
 }
@@ -612,6 +620,11 @@ video {
 .border-gray-500 {
   --tw-border-opacity: 1;
   border-color: rgb(107 114 128 / var(--tw-border-opacity));
+}
+
+.bg-white {
+  --tw-bg-opacity: 1;
+  background-color: rgb(255 255 255 / var(--tw-bg-opacity));
 }
 
 .px-1 {

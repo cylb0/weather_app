@@ -16,9 +16,9 @@ const LocationResults:FC<LocationResultsProps> = ({results, onClick}) => {
     }
 
     return (
-        <div>
+        <div className="flex flex-col">
             {results && results.map((city, index) => (
-                <div className="flex gap-1 items-baseline border border-gray-500 border-collapse sm:w-1/5 w-full rounded" 
+                <div className="flex gap-1 items-baseline border border-gray-500 border-collapse bg-white sm:w-1/5 w-full rounded" 
                     key={index} 
                     onClick={handleClick} 
                     data-index={index}>

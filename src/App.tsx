@@ -1,17 +1,17 @@
 import { useEffect, useState } from 'react'
 import './App.css'
-import Location from './assets/components/Location'
-import { City, WeatherRealtimeData } from './types'
+import { City, ForecastData } from './types'
 import LocationDisplay from './assets/components/LocationDisplay'
+import LocationSelect from './assets/components/LocationSelect'
 
 const weatherApiKey = import.meta.env.VITE_WEATHER_API_KEY
 const weatherApiUrl = 'http://api.weatherapi.com/v1'
-const currentUri = '/current.json'
+const forecastUri = '/forecast.json'
 
 function App() {
 
   const [location, setLocation] = useState<City | null>(null)
-  const [data, setData] = useState<WeatherRealtimeData | null>(null)
+  const [forecastData, setForecastData] = useState<ForecastData| null>(null)
   const [loading, setLoading] = useState<boolean>(false)
   const [error, setError] = useState<string | null>(null)
 
@@ -22,7 +22,7 @@ function App() {
         try {
           setLoading(true)
 
-          const response = await fetch(`${weatherApiUrl}${currentUri}?key=${weatherApiKey}&q=${location.latitude},${location.longitude}`)
+          const response = await fetch(`${weatherApiUrl}${forecastUri}?key=${weatherApiKey}&q=${location.latitude},${location.longitude}&days=5`)
           if (!response) {
             throw new Error('No result')
           }
@@ -31,7 +31,7 @@ function App() {
 
           console.log('data fetched : ' + JSON.stringify(data))
 
-          setData(data)
+          setForecastData(data)
           setLoading(false)
         } catch (error: any) {
           setError(error.message)
@@ -50,8 +50,8 @@ function App() {
 
   return (
     <>
-      <Location onLocationSelect={handleLocationSelect} />
-      {data && <LocationDisplay data={data}/>}
+      <LocationSelect onLocationSelect={handleLocationSelect} />
+      {forecastData?.current && forecastData?.location && <LocationDisplay location={forecastData.location} current={forecastData.current}/>}
     </>
   )
 }
