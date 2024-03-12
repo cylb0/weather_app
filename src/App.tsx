@@ -1,8 +1,9 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, MouseEvent, useContext, createContext } from 'react'
 import './App.css'
-import { City, ForecastData } from './types'
+import { City, ForecastData, TemperatureScale } from './types'
 import LocationDisplay from './assets/components/LocationDisplay'
 import LocationSelect from './assets/components/LocationSelect'
+import TemperatureScaleSelect from './assets/components/TemperatureScaleSelect'
 
 const weatherApiKey = import.meta.env.VITE_WEATHER_API_KEY
 const weatherApiUrl = 'http://api.weatherapi.com/v1'
@@ -15,6 +16,7 @@ function App() {
   const [forecastData, setForecastData] = useState<ForecastData| null>(null)
   const [loading, setLoading] = useState<boolean>(false)
   const [error, setError] = useState<string | null>(null)
+  // const [scale, setScale] = useState<Scale>('°C')
 
   useEffect(() => {
 
@@ -52,6 +54,7 @@ function App() {
   return (
     <>
       <LocationSelect onLocationSelect={handleLocationSelect} />
+      <TemperatureScaleSelect />
       {forecastData?.current && forecastData?.location && location?.name && <LocationDisplay city={location.name} location={forecastData.location} current={forecastData.current}/>}
     </>
   )

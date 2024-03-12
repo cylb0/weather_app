@@ -131,3 +131,5 @@ export interface HourlyForecast {
     short_rad: number
     diff_rad: number
 }
+
+export type TemperatureScale = '°F' | '°C'
